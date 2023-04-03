@@ -23,10 +23,11 @@ async function createBooksTable(pool) {
 const main = async ({ dataSourceLinks, data, dataSinkLinks, credentials }) => {
   // Initialize the PostgreSQL connection pool
   const pool = new Pool(credentials);
-  // create table if the table does not exist
-  createBooksTable(pool);
 
   try {
+    // Create the books table if it does not exist
+    await createBooksTable(pool);
+
     // Insert the book into the database
     const { title, author, isbn } = data;
     const query = `
