@@ -1,0 +1,8 @@
+{
+  "name": "book-app-main",
+  "version": "1.0.0",
+  "description": "Main function for the book microservice app",
+  "dependencies": {
+    "pg": "^8.10.0"
+  }
+}
