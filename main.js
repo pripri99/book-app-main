@@ -1,8 +1,30 @@
 const { Pool } = require("pg");
 
+// Create the books table if it does not exist
+async function createBooksTable(pool) {
+  const client = await pool.connect();
+  try {
+    await client.query(`
+        CREATE TABLE IF NOT EXISTS books (
+          id SERIAL PRIMARY KEY,
+          title TEXT NOT NULL,
+          author TEXT NOT NULL,
+          isbn TEXT NOT NULL UNIQUE
+        );
+      `);
+    console.log("Created books table");
+  } catch (error) {
+    console.error("Error creating books table:", error);
+  } finally {
+    client.release();
+  }
+}
+
 const main = async ({ dataSourceLinks, data, dataSinkLinks, credentials }) => {
   // Initialize the PostgreSQL connection pool
   const pool = new Pool(credentials);
+  // create table if the table does not exist
+  createBooksTable(pool);
 
   try {
     // Insert the book into the database
